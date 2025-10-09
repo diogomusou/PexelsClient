@@ -1,11 +1,12 @@
-import PexelsClientModules
+import API
+import PhotosListFeature
 import SwiftUI
 
 @main
 struct PexelsClientApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PhotosListView(viewModel: .init(api: .live))
         }
     }
 }

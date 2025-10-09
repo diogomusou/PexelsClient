@@ -6,18 +6,27 @@ let package = Package(
     name: "PexelsClientModules",
     platforms: [.iOS(.v17)],
     products: [
-        .library(
-            name: "PexelsClientModules",
-            targets: ["PexelsClientModules"]
-        ),
+        .library(name: "API", targets: ["API"]),
+        .library(name: "Extensions", targets: ["Extensions"]),
+        .library(name: "PhotosListFeature", targets: ["PhotosListFeature"]),
     ],
     targets: [
         .target(
-            name: "PexelsClientModules"
+            name: "API"
+        ),
+        .target(
+            name: "Extensions"
+        ),
+        .target(
+            name: "PhotosListFeature",
+            dependencies: [
+                "API",
+                "Extensions"
+            ]
         ),
         .testTarget(
-            name: "PexelsClientModulesTests",
-            dependencies: ["PexelsClientModules"]
+            name: "PhotosListFeatureTests",
+            dependencies: ["PhotosListFeature"]
         ),
     ]
 )
