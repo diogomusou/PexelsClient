@@ -1,4 +1,4 @@
-public struct PexelsPhoto: Identifiable, Decodable, Equatable {
+public struct PexelsPhoto: Identifiable, Decodable, Equatable, Sendable {
     public let id: Int
     public let width: Int
     public let height: Int
@@ -17,6 +17,6 @@ public struct PexelsPhoto: Identifiable, Decodable, Equatable {
     // alt: String
 }
 
-public struct PhotoSrc: Decodable, Equatable {
+public struct PhotoSrc: Decodable, Equatable, Sendable {
     public let medium: String
 }

@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "5D7496D1-A7BE-4CD1-A2F1-24487929F053",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ExtensionsTests",
+        "name" : "ExtensionsTests"
+      }
+    }
+  ],
+  "version" : 1
+}
