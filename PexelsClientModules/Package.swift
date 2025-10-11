@@ -25,8 +25,15 @@ let package = Package(
             ]
         ),
         .testTarget(
+            name: "ExtensionsTests",
+            dependencies: ["Extensions"]
+        ),
+        .testTarget(
             name: "PhotosListFeatureTests",
-            dependencies: ["PhotosListFeature"]
+            dependencies: [
+                "API",
+                "PhotosListFeature"
+            ]
         ),
     ]
 )

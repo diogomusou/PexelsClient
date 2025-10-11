@@ -14,7 +14,7 @@ public struct PhotosListView: View {
     }
 
     public var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack {
                     if let error = viewModel.error {
@@ -39,25 +39,39 @@ public struct PhotosListView: View {
                                         .frame(maxWidth: .infinity)
                                         .clipped()
                                 case .failure(let error):
+                                    EmptyView()
+#if DEBUG
                                     PlaceholderView(colorHex: photo.avgColor, status: .error(error.localizedDescription))
                                         .frame(maxWidth: .infinity)
                                         .aspectRatio(CGFloat(photo.width) / CGFloat(photo.height), contentMode: .fit)
+#endif
                                 case .empty:
                                     PlaceholderView(colorHex: photo.avgColor, status: .loading)
                                         .frame(maxWidth: .infinity)
                                         .aspectRatio(CGFloat(photo.width) / CGFloat(photo.height), contentMode: .fit)
                                 @unknown default:
+                                    EmptyView()
+#if DEBUG
                                     PlaceholderView(colorHex: photo.avgColor, status: .error("default"))
                                         .frame(maxWidth: .infinity)
                                         .aspectRatio(CGFloat(photo.width) / CGFloat(photo.height), contentMode: .fit)
+#endif
                                 }
                             }
                             .cornerRadius(30)
+                            .onAppear {
+                                if photo == viewModel.photos.last {
+                                    Task {
+                                        await viewModel.loadNextPage()
+                                    }
+                                }
+                            }
                         }
                     }
                     .padding(8)
                 }
             }
+            .refreshable(action: viewModel.didRefresh)
             //            .navigationTitle("Pexels")
             .searchable(text: $viewModel.query, prompt: "Search photos...")
         }

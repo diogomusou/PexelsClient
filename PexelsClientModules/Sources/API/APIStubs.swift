@@ -2,39 +2,69 @@ import Foundation
 
 public extension APIClient {
     static var error: APIClient {
-        .init { _, _ in
-            throw URLError(.notConnectedToInternet)
-        }
+        .init(
+            fetchPhotos: { _, _ in
+                throw URLError(.notConnectedToInternet)
+            },
+            searchPhotos: { _, _, _ in
+                throw URLError(.notConnectedToInternet)
+            }
+        )
     }
 
     static var invalidPhotoURL: APIClient {
-        .init { _, _ in
-            [.init(id: 96420, width: 4896, height: 3264, photographer: "Francesco Ungaro", src: .init(medium: "https://im"), avgColor: "#77220B")]
-        }
+        .init(
+            fetchPhotos: { _, _ in
+                [.init(id: 96420, width: 4896, height: 3264, photographer: "Francesco Ungaro", src: .init(medium: "https://im"), avgColor: "#77220B")]
+            },
+            searchPhotos: { _, _, _ in
+                [.init(id: 96420, width: 4896, height: 3264, photographer: "Francesco Ungaro", src: .init(medium: "https://im"), avgColor: "#77220B")]
+            }
+        )
     }
 
     static var empty: APIClient {
-        .init { _, _ in
-            []
-        }
+        .init(
+            fetchPhotos: { _, _ in
+                []
+            },
+            searchPhotos: { _, _, _ in
+                []
+            }
+        )
     }
 
     static var one: APIClient {
-        .init { _, _ in
-            [.init(id: 96420, width: 4896, height: 3264, photographer: "Francesco Ungaro", src: .init(medium: "https://images.pexels.com/photos/96420/pexels-photo-96420.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#77220B")]
-        }
+        .init(
+            fetchPhotos: { _, _ in
+                [.init(id: 96420, width: 4896, height: 3264, photographer: "Francesco Ungaro", src: .init(medium: "https://images.pexels.com/photos/96420/pexels-photo-96420.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#77220B")]
+            },
+            searchPhotos: { _, _, _ in
+                [.init(id: 96420, width: 4896, height: 3264, photographer: "Francesco Ungaro", src: .init(medium: "https://images.pexels.com/photos/96420/pexels-photo-96420.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#77220B")]
+            }
+        )
     }
 
     static var dummy: APIClient {
         .init(
-            fetchPhotos: { perPage,page in
-                [
+            fetchPhotos: { _, _ in
+                try? await Task.sleep(nanoseconds: 1_000_000_000) // 1.0s
+                return [
                     .init(id: 581299, width: 3432, height: 5152, photographer: "Aden Ardenrich", src: .init(medium: "https://images.pexels.com/photos/581299/pexels-photo-581299.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#3F3325"),
                     .init(id: 96420, width: 4896, height: 3264, photographer: "Francesco Ungaro", src: .init(medium: "https://images.pexels.com/photos/96420/pexels-photo-96420.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#77220B"),
                     .init(id: 3408353, width: 4160, height: 6240, photographer: "Tomáš Malík", src: .init(medium: "https://images.pexels.com/photos/3408353/pexels-photo-3408353.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#757F8A"),
                     .init(id: 601174, width: 2415, height: 2415, photographer: "Tirachard Kumtanom", src: .init(medium: "https://images.pexels.com/photos/601174/pexels-photo-601174.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#7E86A8"),
                     .init(id: 210547, width: 4928, height: 3280, photographer: "Pixabay", src: .init(medium: "https://images.pexels.com/photos/210547/pexels-photo-210547.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#9B755B")
-                ]
+                ].shuffled()
+            }, searchPhotos: { _, _, _ in
+                try? await Task.sleep(nanoseconds: 1_000_000_000) // 1.0s
+                return [
+                    .init(id: 96420, width: 4896, height: 3264, photographer: "Francesco Ungaro", src: .init(medium: "https://images.pexels.com/photos/96420/pexels-photo-96420.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#77220B"),
+                    .init(id: 581299, width: 3432, height: 5152, photographer: "Aden Ardenrich", src: .init(medium: "https://images.pexels.com/photos/581299/pexels-photo-581299.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#3F3325"),
+                    .init(id: 3408353, width: 4160, height: 6240, photographer: "Tomáš Malík", src: .init(medium: "https://images.pexels.com/photos/3408353/pexels-photo-3408353.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#757F8A"),
+                    .init(id: 601174, width: 2415, height: 2415, photographer: "Tirachard Kumtanom", src: .init(medium: "https://images.pexels.com/photos/601174/pexels-photo-601174.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#7E86A8"),
+                    .init(id: 210547, width: 4928, height: 3280, photographer: "Pixabay", src: .init(medium: "https://images.pexels.com/photos/210547/pexels-photo-210547.jpeg?auto=compress&cs=tinysrgb&h=130"), avgColor: "#9B755B")
+                ].shuffled()
             }
         )
     }
