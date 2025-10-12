@@ -42,11 +42,10 @@ public struct ZoomableImageView: UIViewRepresentable {
         guard let imageView = context.coordinator.imageView else { return }
         if imageView.image == nil {
             DispatchQueue.main.async {
-                print("update1")
                 imageView.image = image
                 imageView.frame = CGRect(origin: .zero, size: image.size)
                 scrollView.contentSize = image.size
-                // After imageView.image is set and scrollView.contentSize = uiImage.size
+
                 let minScale = min(
                     size.width / image.size.width,
                     size.height / image.size.height
@@ -56,7 +55,8 @@ public struct ZoomableImageView: UIViewRepresentable {
                 self.centerImage(in: scrollView, imageView: imageView)
             }
         } else {
-            print("update2")
+            // Called when user rotate screen
+            
             let minScale = min(
                 size.width / image.size.width,
                 size.height / image.size.height
