@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D8A2D1182E9A5BE50054A67B /* PhotoFullscreenFeature in Frameworks */ = {isa = PBXBuildFile; productRef = D8A2D1172E9A5BE50054A67B /* PhotoFullscreenFeature */; };
 		D8D142DC2E96208300501AC0 /* PhotosListFeature in Frameworks */ = {isa = PBXBuildFile; productRef = D8D142DB2E96208300501AC0 /* PhotosListFeature */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8D142DC2E96208300501AC0 /* PhotosListFeature in Frameworks */,
+				D8A2D1182E9A5BE50054A67B /* PhotoFullscreenFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +118,7 @@
 			name = PexelsClient;
 			packageProductDependencies = (
 				D8D142DB2E96208300501AC0 /* PhotosListFeature */,
+				D8A2D1172E9A5BE50054A67B /* PhotoFullscreenFeature */,
 			);
 			productName = PexelsClient;
 			productReference = D8D142992E95FA6900501AC0 /* PexelsClient.app */;
@@ -574,6 +577,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D8A2D1172E9A5BE50054A67B /* PhotoFullscreenFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PhotoFullscreenFeature;
+		};
 		D8D142DB2E96208300501AC0 /* PhotosListFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PhotosListFeature;

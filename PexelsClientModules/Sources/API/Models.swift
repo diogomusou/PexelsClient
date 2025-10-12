@@ -19,4 +19,5 @@ public struct PexelsPhoto: Identifiable, Decodable, Equatable, Sendable {
 
 public struct PhotoSrc: Decodable, Equatable, Sendable {
     public let medium: String
+    public let original: String
 }

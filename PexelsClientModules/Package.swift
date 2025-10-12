@@ -4,11 +4,13 @@ import PackageDescription
 
 let package = Package(
     name: "PexelsClientModules",
-    platforms: [.iOS(.v17)],
+    platforms: [.iOS("17.6")],
     products: [
         .library(name: "API", targets: ["API"]),
         .library(name: "Extensions", targets: ["Extensions"]),
+        .library(name: "PhotoFullscreenFeature", targets: ["PhotoFullscreenFeature"]),
         .library(name: "PhotosListFeature", targets: ["PhotosListFeature"]),
+        .library(name: "UI", targets: ["UI"]),
     ],
     targets: [
         .target(
@@ -18,10 +20,26 @@ let package = Package(
             name: "Extensions"
         ),
         .target(
+            name: "PhotoFullscreenFeature",
+            dependencies: [
+                "API",
+                "Extensions",
+                "UI"
+            ]
+        ),
+        .target(
             name: "PhotosListFeature",
             dependencies: [
                 "API",
-                "Extensions"
+                "Extensions",
+                "PhotoFullscreenFeature",
+                "UI"
+            ]
+        ),
+        .target(
+            name: "UI",
+            dependencies: [
+                "Extensions",
             ]
         ),
         .testTarget(
@@ -35,5 +53,6 @@ let package = Package(
                 "PhotosListFeature"
             ]
         ),
+
     ]
 )
