@@ -1,0 +1,10 @@
+# General
+.DS_Store
+.build/
+build/
+Package.resolved
+xcuserdata/
+
+# .swiftpm
+#.swiftpm/xcode/xcuserdata/
+#.swiftpm/xcode/package.xcworkspace/xcuserdata/

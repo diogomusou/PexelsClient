@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "3D86A671-1E87-40DF-A481-0E93270A8DC6",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:PexelsClient.xcodeproj",
+      "identifier" : "D8D142982E95FA6900501AC0",
+      "name" : "PexelsClient"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:PexelsClientModules",
+        "identifier" : "ExtensionsTests",
+        "name" : "ExtensionsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:PexelsClientModules",
+        "identifier" : "PhotosListFeatureTests",
+        "name" : "PhotosListFeatureTests"
+      }
+    }
+  ],
+  "version" : 1
+}
