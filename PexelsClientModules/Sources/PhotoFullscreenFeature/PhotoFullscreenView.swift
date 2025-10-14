@@ -116,9 +116,8 @@ public struct PhotoFullscreenView: View {
                         .padding()
                     Text("Photographer: \(viewModel.photo.photographer)")
                         .foregroundColor(.white)
-                    Link("View Profile", destination: URL(string: "https://www.google.com")!)
-                        .foregroundColor(.blue)
-                        .padding()
+                    Text("Description: \(viewModel.photo.description)")
+                        .foregroundColor(.white)
                     Button("Close") {
                         showInfo = false
                     }

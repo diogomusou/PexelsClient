@@ -100,7 +100,8 @@ public extension PexelsPhoto {
                 medium: "https://images.pexels.com/photos/96420/pexels-photo-96420.jpeg?auto=compress&cs=tinysrgb&h=130",
                 original: "https://images.pexels.com/photos/96420/pexels-photo-96420.jpeg"
             ),
-            avgColor: "#77220B"
+            avgColor: "#77220B",
+            description: "Explore the stunning orange torii gates of Fushimi Inari Taisha in Kyoto, Japan."
         )
     }
 
@@ -115,7 +116,8 @@ public extension PexelsPhoto {
                 medium: "https://images.pexels.com/photos/210547/pexels-photo-210547.jpeg?auto=compress&cs=tinysrgb&h=130",
                 original: "https://images.pexels.com/photos/210547/pexels-photo-210547.jpeg"
             ),
-            avgColor: "#9B755B"
+            avgColor: "#9B755B",
+            description: "Traditional Japanese room with shoji screens and a view of a serene garden pond."
         )
     }
 
@@ -130,7 +132,8 @@ public extension PexelsPhoto {
                 medium: "https://images.pexels.com/photos/581299/pexels-photo-581299.jpeg?auto=compress&cs=tinysrgb&h=130",
                 original: "https://images.pexels.com/photos/581299/pexels-photo-581299.jpeg"
             ),
-            avgColor: "#3F3325"
+            avgColor: "#3F3325",
+            description: "Rows of traditional Japanese paper lanterns glowing warmly in the night."
         )
     }
 
@@ -145,7 +148,8 @@ public extension PexelsPhoto {
                 medium: "https://images.pexels.com/photos/3408353/pexels-photo-3408353.jpeg?auto=compress&cs=tinysrgb&h=130",
                 original: "https://images.pexels.com/photos/3408353/pexels-photo-3408353.jpeg"
             ),
-            avgColor: "#757F8A"
+            avgColor: "#757F8A",
+            description: "Stunning view of Chureito Pagoda and snow-capped Mount Fuji, Fujinomiya, Japan."
         )
     }
 
@@ -160,7 +164,8 @@ public extension PexelsPhoto {
                 medium: "https://images.pexels.com/photos/601174/pexels-photo-601174.jpeg?auto=compress&cs=tinysrgb&h=130",
                 original: "https://images.pexels.com/photos/601174/pexels-photo-601174.jpeg"
             ),
-            avgColor: "#7E86A8"
+            avgColor: "#7E86A8",
+            description: "Stunning view of Mount Fuji framed by vibrant autumn maple leaves at a serene lake."
         )
     }
 
@@ -175,7 +180,8 @@ public extension PexelsPhoto {
                 medium: "",
                 original: ""
             ),
-            avgColor: "#77220B"
+            avgColor: "#77220B",
+            description: ""
         )
     }
 
@@ -190,7 +196,8 @@ public extension PexelsPhoto {
                 medium: "https://jsonplaceholder.typicode.com/todos/1",
                 original: "https://jsonplaceholder.typicode.com/todos/1"
             ),
-            avgColor: "#77220B"
+            avgColor: "#77220B",
+            description: ""
         )
     }
 }
