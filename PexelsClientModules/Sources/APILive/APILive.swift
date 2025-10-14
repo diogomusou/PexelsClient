@@ -8,7 +8,7 @@ extension APIClient: DependencyKey {
         .init(
             fetchPhotos: { page,perPage in
                 let url = URL(string: "https://api.pexels.com/v1/curated?per_page=\(perPage)&page=\(page)")!
-                let apiKey = "96Yn7nkJqOSQDxgx8OMAkVZRZHKvCcUF2JcaNIq8xMM0NZwDyq7ikGJl"
+                let apiKey = ""
 
                 var request = URLRequest(url: url)
                 request.setValue(apiKey, forHTTPHeaderField: "Authorization")
@@ -20,7 +20,7 @@ extension APIClient: DependencyKey {
             searchPhotos: { query, page, perPage in
                 let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
                 let url = URL(string: "https://api.pexels.com/v1/search?query=\(encodedQuery)&per_page=\(perPage)&page=\(page)")!
-                let apiKey = "96Yn7nkJqOSQDxgx8OMAkVZRZHKvCcUF2JcaNIq8xMM0NZwDyq7ikGJl"
+                let apiKey = ""
 
                 var request = URLRequest(url: url)
                 request.setValue(apiKey, forHTTPHeaderField: "Authorization")
