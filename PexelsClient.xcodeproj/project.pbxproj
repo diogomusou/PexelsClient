@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D8A2D1182E9A5BE50054A67B /* PhotoFullscreenFeature in Frameworks */ = {isa = PBXBuildFile; productRef = D8A2D1172E9A5BE50054A67B /* PhotoFullscreenFeature */; };
 		D8D142DC2E96208300501AC0 /* PhotosListFeature in Frameworks */ = {isa = PBXBuildFile; productRef = D8D142DB2E96208300501AC0 /* PhotosListFeature */; };
+		D8D152582E9DD92200842297 /* APILive in Frameworks */ = {isa = PBXBuildFile; productRef = D8D152572E9DD92200842297 /* APILive */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8D152582E9DD92200842297 /* APILive in Frameworks */,
 				D8D142DC2E96208300501AC0 /* PhotosListFeature in Frameworks */,
 				D8A2D1182E9A5BE50054A67B /* PhotoFullscreenFeature in Frameworks */,
 			);
@@ -119,6 +121,7 @@
 			packageProductDependencies = (
 				D8D142DB2E96208300501AC0 /* PhotosListFeature */,
 				D8A2D1172E9A5BE50054A67B /* PhotoFullscreenFeature */,
+				D8D152572E9DD92200842297 /* APILive */,
 			);
 			productName = PexelsClient;
 			productReference = D8D142992E95FA6900501AC0 /* PexelsClient.app */;
@@ -584,6 +587,10 @@
 		D8D142DB2E96208300501AC0 /* PhotosListFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PhotosListFeature;
+		};
+		D8D152572E9DD92200842297 /* APILive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = APILive;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

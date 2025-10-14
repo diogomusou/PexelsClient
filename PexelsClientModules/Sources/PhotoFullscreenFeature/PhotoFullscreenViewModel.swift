@@ -1,20 +1,38 @@
 import API
+import Dependencies
+import Models
 import SwiftUI
 
-@MainActor
+@Observable
 public class PhotoFullscreenViewModel: ObservableObject {
-    @Published var image: UIImage?
-    @Published var error: String?
-    @Published var photo: PexelsPhoto
-    @Published var placeholder: Image?
+    var image: UIImage?
+    var error: String?
+    var photo: PexelsPhoto
+    var thumbnailImage: Image?
 
-    public init(photo: PexelsPhoto, placeholder: Image? = nil) {
+    private var onDismiss: () -> Void
+
+    @ObservationIgnored
+    @Dependency(APIClient.self) private var api
+    @ObservationIgnored
+    @Dependency(\.continuousClock) private var clock
+
+    public init(
+        photo: PexelsPhoto,
+        thumbnailImage: Image? = nil,
+        onDismiss: @escaping () -> Void
+    ) {
         self.photo = photo
-        self.placeholder = placeholder
+        self.thumbnailImage = thumbnailImage
+        self.onDismiss = onDismiss
 
         Task {
             await loadImage()
         }
+    }
+
+    func didTapDismiss() {
+        onDismiss()
     }
 
     private func loadImage() async {
@@ -24,9 +42,9 @@ public class PhotoFullscreenViewModel: ObservableObject {
         }
 
         do {
-            try? await Task.sleep(nanoseconds: 200_000_000)
-            let data = try await URLSession.shared.data(from: url)
-            if let image = UIImage(data: data.0) {
+            try? await clock.sleep(for: .seconds(0.2))
+            let data = try await api.fetchData(from: url)
+            if let image = UIImage(data: data) {
                 self.image = image
                 error = nil
             } else {
