@@ -1,19 +1,15 @@
 import API
+import Dependencies
 import PhotoFullscreenFeature
 import SwiftUI
 import UI
 
 public struct PhotosListView: View {
-    @ObservedObject var viewModel: PhotoViewModel
+    @State private var viewModel = PhotoViewModel()
 
     @Namespace private var photoNamespace
-    @State private var isFullscreen = false
-    @State private var selectedImage: Image?
-    @State private var selectedPhoto: PexelsPhoto?
 
-    public init(viewModel: PhotoViewModel) {
-        self.viewModel = viewModel
-    }
+    public init() {}
 
     private var columns: [GridItem] {
         [GridItem(.flexible(minimum: 0), spacing: 8)]
@@ -25,21 +21,29 @@ public struct PhotosListView: View {
                 ScrollView {
                     VStack {
                         errorBanner
-                        
+
+                        // TODO: localization
                         Text("Photos provided by Pexels")
                             .font(.caption)
-                        
+
                         photoGrid
+
+                        if viewModel.isLoading {
+                            ProgressView()
+                        }
                     }
                 }
                 .refreshable(action: viewModel.didRefresh)
                 .searchable(text: $viewModel.query, prompt: "Search photos...")
             }
 
-            if isFullscreen, let selectedPhoto, let selectedImage {
-                PhotoFullscreenView(viewModel: .init(photo: selectedPhoto, placeholder: selectedImage), namespace: photoNamespace, isPresented: $isFullscreen)
-                    .transition(.opacity)
-                    .zIndex(1)
+            if let destination = viewModel.destination {
+                switch destination {
+                case .photoFullscreen(viewModel: let viewModel):
+                    PhotoFullscreenView(viewModel: viewModel, namespace: photoNamespace)
+                        .transition(.opacity)
+                        .zIndex(1)
+                }
             }
 
         }
@@ -49,7 +53,7 @@ public struct PhotosListView: View {
     var photoGrid: some View {
         LazyVGrid(columns: columns, spacing: 10) {
             ForEach(viewModel.photos) { photo in
-                AsyncImage(url: .init(string: photo.src.medium)) { phase in
+                AsyncImage(url: viewModel.url(for: photo)) { phase in
                     switch phase {
                     case .success(let image):
                         image
@@ -60,43 +64,39 @@ public struct PhotosListView: View {
                             .matchedGeometryEffect(id: photo.id, in: photoNamespace)
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                    selectedPhoto = photo
-                                    selectedImage = image
-                                    isFullscreen = true
+                                    viewModel.didTapPhoto(photo, image: image)
                                 }
                             }
-                    case .failure(let error):
+                    case .failure:
                         EmptyView()
-#if DEBUG
-                        PlaceholderView(colorHex: photo.avgColor, status: .error(error.localizedDescription))
-                            .frame(maxWidth: .infinity)
-                            .aspectRatio(CGFloat(photo.width) / CGFloat(photo.height), contentMode: .fit)
-#endif
+//#if DEBUG
+//                        PlaceholderView(colorHex: photo.avgColor, status: .error("error.localizedDescription"))
+//                            .frame(maxWidth: .infinity)
+//                            .aspectRatio(CGFloat(photo.width) / CGFloat(photo.height), contentMode: .fit)
+//#endif
                     case .empty:
                         PlaceholderView(colorHex: photo.avgColor, status: .loading)
                             .frame(maxWidth: .infinity)
-                            .aspectRatio(CGFloat(photo.width) / CGFloat(photo.height), contentMode: .fit)
+                            .aspectRatio(photo.aspectRatio, contentMode: .fit)
                     @unknown default:
                         EmptyView()
 #if DEBUG
                         PlaceholderView(colorHex: photo.avgColor, status: .error("default"))
                             .frame(maxWidth: .infinity)
-                            .aspectRatio(CGFloat(photo.width) / CGFloat(photo.height), contentMode: .fit)
+                            .aspectRatio(photo.aspectRatio, contentMode: .fit)
 #endif
                     }
                 }
                 .cornerRadius(30)
                 .onAppear {
-                    if photo == viewModel.photos.last {
-                        Task {
-                            await viewModel.loadNextPage()
-                        }
+                    guard photo == viewModel.photos.last else { return }
+                    Task {
+                        await viewModel.loadNextPage()
                     }
                 }
             }
         }
         .padding(8)
-
     }
 
     var errorBanner: some View {
@@ -116,7 +116,9 @@ public struct PhotosListView: View {
 
 // MARK: - Preview
 #Preview {
-    PhotosListView(viewModel: .init(api: .dummy))
-//    PhotosListView(viewModel: .init(api: .error))
-//    PhotosListView(viewModel: .init(api: .invalidPhotoURL))
+    withDependencies {
+        $0.api = .one
+    } operation: {
+        PhotosListView()
+    }
 }

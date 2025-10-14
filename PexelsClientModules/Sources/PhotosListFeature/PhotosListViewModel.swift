@@ -1,12 +1,21 @@
 import API
+import Dependencies
 import Foundation
+import Models
+import PhotoFullscreenFeature
 import SwiftUI
 
-@MainActor
+enum Destination {
+    case photoFullscreen(viewModel: PhotoFullscreenViewModel)
+}
+
+@Observable
 public class PhotoViewModel: ObservableObject {
-    @Published var photos: [PexelsPhoto] = []
-    @Published var error: String? = nil
-    @Published var query: String = "" {
+    var photos: [PexelsPhoto] = []
+    var error: String? = nil
+    var isLoading = false
+    var destination: Destination?
+    var query: String = "" {
         didSet {
             guard oldValue != query else { return }
             Task {
@@ -15,40 +24,51 @@ public class PhotoViewModel: ObservableObject {
         }
     }
 
+    @ObservationIgnored
+    @Dependency(APIClient.self) private var api
+
     private var page = 1
     private var currentQuery = ""
-    private var api: APIClient
     private var searchTask: Task<[PexelsPhoto], Never>?
     private var previousQuery: String?
     private var previousPage: Int?
-    private var isLoadingNextPage = false
 
-    public init(api: APIClient) {
-        self.api = api
 
+    public init() {
         Task {
             await searchAndReplacePhotos()
         }
     }
 
     func didRefresh() async {
-        print("REFRESH")
         await searchAndReplacePhotos()
     }
 
+    func didTapPhoto(_ photo: PexelsPhoto, image: Image) {
+        destination = .photoFullscreen(viewModel: .init(photo: photo, thumbnailImage: image, onDismiss: { [weak self] in self?.destination = nil }))
+    }
+
     func loadNextPage() async {
-        guard !isLoadingNextPage else { return }
-        isLoadingNextPage = true
+        guard !isLoading else { return }
+        isLoading = true
         page += 1
         photos += await search(for: query)
-        isLoadingNextPage = false
+        isLoading = false
+    }
+
+    func url(for photo: PexelsPhoto) -> URL? {
+        // TODO: add logic to change image resolution based on device, network, etc
+        URL(string: photo.src.large)
     }
 
     private func searchAndReplacePhotos(debounce: Bool = false) async {
+        guard !isLoading else { return }
+        isLoading = true
         page = Array(1...10).randomElement() ?? 1
         let newPhotos = await search(for: query, debounce: debounce)
         guard !newPhotos.isEmpty else { return }
         photos = newPhotos
+        isLoading = false
     }
 
     private func search(for query: String, debounce: Bool = false) async -> [PexelsPhoto] {
@@ -66,9 +86,9 @@ public class PhotoViewModel: ObservableObject {
 
             do {
                 let photos = if !query.isEmpty {
-                    try await api.searchPhotos(query, 5, page)
+                    try await api.searchPhotos(query: query, page: page, perPage: 5)
                 } else {
-                    try await api.fetchPhotos(5, page)
+                    try await api.fetchPhotos(page: page, perPage: 5)
                 }
                 self.error = nil
                 return photos
